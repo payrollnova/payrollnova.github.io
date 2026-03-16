@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PayrollNova · Payroll Compliance Consultant · Montreal, Canada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0c1d32;--navy-mid:#162d4e;--navy-light:#1e3d6b;
+  --gold:#b8922a;--gold-light:#d4af50;--gold-pale:#fdf6e3;
+  --maple:#c0392b;--sage:#3a6349;
+  --paper:#f5f2ec;--cream:#fdfaf5;--ink:#0f1922;--muted:#6b7585;--border:#ddd8ce;
+  --white:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+
+/* Language system - each element shows only its language */
+.en,.zh,.fr{display:none}
+body.lang-en .en{display:block}
+body.lang-en span.en{display:inline}
+body.lang-en li.en{display:flex}
+body.lang-zh .zh{display:block}
+body.lang-zh span.zh{display:inline}
+body.lang-zh li.zh{display:flex}
+body.lang-fr .fr{display:block}
+body.lang-fr span.fr{display:inline}
+body.lang-fr li.fr{display:flex}
+/* Special cases */
+body.lang-en .en.flex{display:flex}
+body.lang-zh .zh.flex{display:flex}
+body.lang-fr .fr.flex{display:flex}
+body.lang-en .en.grid{display:grid}
+body.lang-zh .zh.grid{display:grid}
+body.lang-fr .fr.grid{display:grid}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(12,29,50,0.97);backdrop-filter:blur(16px);height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;border-bottom:1px solid rgba(184,146,42,0.18)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;text-decoration:none}
+.nav-logo em{font-style:italic;color:var(--gold-light)}
+.nav-center{display:flex;gap:32px;align-items:center}
+.nav-center a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;transition:color .2s}
+.nav-center a:hover{color:var(--gold-light)}
+.nav-right{display:flex;align-items:center;gap:16px}
+.lang-bar{display:flex;gap:3px}
+.lb{background:none;border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.35);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;padding:4px 9px;border-radius:2px;cursor:pointer;transition:all .2s}
+.lb.on,.lb:hover{background:rgba(184,146,42,0.18);border-color:var(--gold);color:var(--gold-light)}
+.nav-cta{background:var(--gold);color:#fff;text-decoration:none;padding:9px 20px;border-radius:2px;font-size:11px;font-weight:700;letter-spacing:.5px;transition:background .2s}
+.nav-cta:hover{background:var(--gold-light)}
+
+/* Floating CTA */
+.float-cta{position:fixed;bottom:28px;right:28px;z-index:150;background:var(--gold);color:#fff;text-decoration:none;padding:12px 20px;border-radius:3px;font-size:12px;font-weight:700;box-shadow:0 4px 20px rgba(184,146,42,0.4);transition:all .2s;display:flex;align-items:center;gap:8px}
+.float-cta:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 28px rgba(184,146,42,0.5)}
+
+/* HERO */
+.hero{min-height:100vh;background:var(--navy);display:flex;align-items:center;position:relative;overflow:hidden;padding:100px 0 80px}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 80% 50%,rgba(26,53,96,0.8) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 15% 80%,rgba(184,146,42,0.06) 0%,transparent 60%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(184,146,42,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(184,146,42,0.025) 1px,transparent 1px);background-size:72px 72px}
+.hero-inner{position:relative;z-index:2;max-width:1120px;margin:0 auto;padding:0 64px;display:grid;grid-template-columns:1fr 400px;gap:72px;align-items:center}
+.hero-kicker{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(212,175,80,.65);margin-bottom:22px;display:flex;align-items:center;gap:14px}
+.hero-kicker::before{content:'';width:36px;height:1px;background:var(--gold);display:block}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:56px;line-height:1.07;color:#fff;font-weight:700;letter-spacing:-1.5px;margin-bottom:22px}
+.hero-title em{font-style:italic;color:var(--gold-light)}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.42);line-height:1.9;max-width:500px;margin-bottom:38px}
+.hero-btns{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:40px}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#fff;text-decoration:none;padding:13px 26px;border-radius:2px;font-size:12px;font-weight:700;letter-spacing:.5px;transition:background .2s,transform .15s}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.5);text-decoration:none;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;border:1px solid rgba(255,255,255,.12);padding:12px 18px;border-radius:2px;transition:all .2s}
+.btn-outline:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+.trust-list{display:flex;flex-direction:column;gap:9px}
+.trust-item{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.32);letter-spacing:.5px;display:flex;align-items:center;gap:10px}
+.trust-item::before{content:'✓';color:var(--gold);font-family:'Lato',sans-serif;font-weight:700;font-size:12px}
+
+.hero-card{background:rgba(255,255,255,.04);border:1px solid rgba(184,146,42,.2);border-radius:4px;padding:30px;backdrop-filter:blur(8px)}
+.hc-title{font-family:'Cormorant Garamond',serif;font-size:17px;color:#fff;font-weight:600;margin-bottom:18px}
+.hc-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.hcs{background:rgba(0,0,0,.22);border-radius:3px;padding:14px;text-align:center}
+.hcs-n{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--gold-light);font-weight:700;line-height:1}
+.hcs-l{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.22);margin-top:4px;letter-spacing:1px}
+.hc-tags{display:flex;gap:6px;flex-wrap:wrap}
+.hctag{padding:4px 10px;background:rgba(184,146,42,.1);border:1px solid rgba(184,146,42,.2);border-radius:2px;font-family:'DM Mono',monospace;font-size:9px;color:var(--gold-light);letter-spacing:1px}
+
+/* LAYOUT */
+section{padding:100px 0}
+.container{max-width:1120px;margin:0 auto;padding:0 64px}
+.sec-kicker{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.sec-kicker::before{content:'';width:24px;height:1px;background:var(--gold);display:block}
+.sec-kicker.light{color:rgba(255,255,255,.3)}
+h2.sec-title{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:700;color:var(--ink);line-height:1.1;letter-spacing:-.5px;margin-bottom:52px}
+h2.sec-title em{font-style:italic;color:var(--gold)}
+h2.sec-title.light{color:#fff}
+
+/* ABOUT */
+#about{background:var(--paper)}
+.about-grid{display:grid;grid-template-columns:380px 1fr;gap:72px;align-items:start}
+.about-photo{background:var(--navy-mid);border-radius:4px;aspect-ratio:3/4;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.about-photo-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(26,61,107,.8),rgba(12,29,50,1))}
+.about-initials{position:relative;z-index:1;font-family:'Cormorant Garamond',serif;font-size:110px;color:rgba(184,146,42,.18);font-weight:700;line-height:1}
+.about-badge{position:absolute;bottom:-16px;right:-16px;background:var(--gold);color:#fff;padding:16px 20px;border-radius:3px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.about-badge-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;line-height:1}
+.about-badge-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;margin-top:3px;opacity:.8}
+.about-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(12,29,50,.96));padding:28px 20px 20px}
+.about-name-card{font-family:'Cormorant Garamond',serif;font-size:20px;color:#fff;font-weight:600}
+.about-cert{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold-light);letter-spacing:1.5px;margin-top:4px}
+.about-quote{font-family:'Cormorant Garamond',serif;font-size:20px;line-height:1.6;color:var(--ink);font-style:italic;margin-bottom:20px;padding-left:20px;border-left:3px solid var(--gold)}
+.about-body{font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:28px}
+.about-body strong{color:var(--ink);font-weight:700}
+.creds{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px}
+.cred{background:var(--cream);border:1px solid var(--border);border-radius:3px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.cred-icon{font-size:18px;flex-shrink:0}
+.cred-t{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.cred-d{font-size:11px;color:var(--muted)}
+.lang-chips{display:flex;gap:8px;flex-wrap:wrap}
+.lchip{padding:6px 16px;background:var(--navy);color:rgba(255,255,255,.65);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;border-radius:2px}
+
+/* SERVICES */
+#services{background:var(--cream)}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.svc{background:var(--paper);border:1px solid var(--border);padding:36px 28px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.svc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.svc:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.07)}
+.svc:hover::before{transform:scaleX(1)}
+.svc-icon{font-size:30px;margin-bottom:16px}
+.svc-en-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.svc-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--ink);margin-bottom:12px}
+.svc-desc{font-size:12px;color:var(--muted);line-height:1.75;margin-bottom:20px}
+.svc-list{list-style:none;margin-bottom:20px}
+.svc-list li{font-size:12px;color:var(--ink);padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:8px;line-height:1.4}
+.svc-list li:last-child{border-bottom:none}
+.svc-list li::before{content:'—';color:var(--gold);font-size:10px;flex-shrink:0;margin-top:2px}
+.svc-price{padding-top:16px;border-top:1px solid var(--border)}
+.svc-price-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px;text-transform:uppercase}
+.svc-price-val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--navy)}
+
+/* PRICING */
+#pricing{background:var(--navy)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:40px}
+.pc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:30px 24px;position:relative;transition:transform .2s}
+.pc:hover{transform:translateY(-3px)}
+.pc.feat{background:rgba(184,146,42,.07);border-color:rgba(184,146,42,.28)}
+.pc-pop{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 14px;border-radius:2px;white-space:nowrap}
+.pc-tier{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.pc-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:#fff;margin-bottom:16px}
+.pc-price{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;color:var(--gold-light);line-height:1}
+.pc-price sup{font-size:20px;vertical-align:top;margin-top:8px}
+.pc-price sub{font-size:16px;color:rgba(255,255,255,.3)}
+.pc-sub{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.22);margin:6px 0 20px;letter-spacing:.5px}
+.pc-div{height:1px;background:rgba(255,255,255,.07);margin:16px 0}
+.pc-list{list-style:none}
+.pc-list li{font-size:11px;color:rgba(255,255,255,.48);padding:5px 0;display:flex;align-items:flex-start;gap:8px;line-height:1.45}
+.pc-list li::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0}
+.pc-cta{display:block;text-align:center;text-decoration:none;margin-top:24px;padding:11px;border:1px solid rgba(184,146,42,.35);color:var(--gold-light);border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;transition:all .2s}
+.pc-cta:hover,.pc.feat .pc-cta{background:var(--gold);color:#fff;border-color:var(--gold)}
+.addons{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:28px 32px}
+.addons-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:#fff;font-weight:600;margin-bottom:20px}
+.addons-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.addon{border-left:2px solid var(--gold);padding-left:14px}
+.addon-name{font-size:12px;font-weight:700;color:#fff;margin-bottom:4px}
+.addon-price{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold-light);margin-bottom:4px}
+.addon-desc{font-size:11px;color:rgba(255,255,255,.3);line-height:1.5}
+.pricing-note{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.18);text-align:center;margin-top:28px}
+
+/* CASES */
+#cases{background:var(--paper)}
+.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.case{background:var(--cream);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.case:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.07)}
+.case-header{padding:22px 24px}
+.case-industry{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:8px}
+.case-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#fff;line-height:1.25}
+.case-body{padding:22px 24px}
+.case-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.case-lbl.green{color:var(--sage)}
+.case-text{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:14px}
+.case-result{font-size:12px;color:var(--ink);line-height:1.65;font-weight:600}
+.case-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.case-metric{text-align:center}
+.case-metric-num{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);line-height:1}
+.case-metric-text{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.3}
+
+/* FAQ */
+#faq{background:var(--cream)}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.faq{background:var(--paper);border:1px solid var(--border);padding:24px 28px;transition:background .2s}
+.faq:hover{background:var(--gold-pale)}
+.faq-q{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.4;display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.faq-q::after{content:'+';color:var(--gold);font-size:20px;font-weight:300;flex-shrink:0;line-height:1}
+.faq-a{font-size:12px;color:var(--muted);line-height:1.75}
+
+/* BOOKING */
+#booking{background:var(--navy)}
+.booking-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.booking-kicker{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(184,146,42,.6);margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.booking-kicker::before{content:'';width:24px;height:1px;background:var(--gold);display:block}
+.booking-title{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;color:#fff;line-height:1.1;letter-spacing:-.5px;margin-bottom:16px}
+.booking-title em{font-style:italic;color:var(--gold-light)}
+.booking-desc{font-size:13px;color:rgba(255,255,255,.38);line-height:1.9;margin-bottom:28px}
+.booking-pts{list-style:none}
+.booking-pts li{font-size:12px;color:rgba(255,255,255,.52);padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:10px}
+.booking-pts li::before{content:'🍁';font-size:11px}
+.bform{background:rgba(255,255,255,.05);border:1px solid rgba(184,146,42,.2);border-radius:4px;padding:36px}
+.bform-title{font-family:'Cormorant Garamond',serif;font-size:22px;color:#fff;font-weight:600;margin-bottom:22px}
+.fg{margin-bottom:14px}
+.fl{display:block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:5px}
+.fi,.fs,.ft{width:100%;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.1);border-radius:2px;padding:10px 13px;color:#fff;font-size:12px;font-family:'Lato',sans-serif;outline:none;transition:border-color .2s}
+.fi:focus,.fs:focus,.ft:focus{border-color:rgba(184,146,42,.5)}
+.fs option{background:var(--navy)}
+.ft{height:76px;resize:none}
+.fsub{width:100%;background:var(--gold);color:#fff;border:none;border-radius:2px;padding:13px;font-size:12px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer;letter-spacing:.5px;transition:background .2s;margin-top:6px}
+.fsub:hover{background:var(--gold-light)}
+.fnote{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.18);text-align:center;margin-top:10px}
+.success-msg{display:none;background:rgba(58,99,73,.2);border:1px solid rgba(58,99,73,.4);border-radius:3px;padding:14px;color:#80c99a;font-size:12px;text-align:center;margin-top:10px}
+
+/* FOOTER */
+footer{background:#060e1a;padding:52px 0 28px;border-top:1px solid rgba(184,146,42,.1)}
+.footer-inner{max-width:1120px;margin:0 auto;padding:0 64px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;margin-bottom:36px}
+.flogo{font-family:'Cormorant Garamond',serif;font-size:22px;color:#fff;font-weight:600;text-decoration:none;display:block;margin-bottom:10px}
+.flogo em{font-style:italic;color:var(--gold)}
+.ftag{font-size:11px;color:rgba(255,255,255,.2);line-height:1.7}
+.fcol-t{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.flinks{list-style:none}
+.flinks li{margin-bottom:8px}
+.flinks a{font-size:11px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s}
+.flinks a:hover{color:rgba(255,255,255,.6)}
+.fcontact{font-size:11px;color:rgba(255,255,255,.28);line-height:1.9}
+.fcontact a{color:var(--gold-light);text-decoration:none}
+.footer-bottom{max-width:1120px;margin:0 auto;padding:20px 64px 0;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center}
+.fcopy{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.12)}
+.fcert{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);opacity:.7}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+@media(max-width:960px){
+  nav{padding:0 20px}
+  .nav-center{display:none}
+  .hero-inner{grid-template-columns:1fr;padding:0 24px}
+  .hero-title{font-size:38px}
+  .hero-card{display:none}
+  .container{padding:0 24px}
+  section{padding:64px 0}
+  h2.sec-title{font-size:32px}
+  .about-grid,.svc-grid,.pricing-grid,.cases-grid,.faq-grid,.booking-grid,.footer-inner{grid-template-columns:1fr}
+  .addons-grid{grid-template-columns:1fr 1fr}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+  .float-cta{bottom:16px;right:16px;padding:10px 16px;font-size:11px}
+}
+</style>
+</head>
+<body class="lang-en">
+
+<!-- FLOATING CTA -->
+<a href="#booking" class="float-cta">
+  <span class="en">📅 Free Consultation</span>
+  <span class="zh">📅 免费咨询</span>
+  <span class="fr">📅 Consultation gratuite</span>
+</a>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Payroll<em>Nova</em></a>
+  <div class="nav-center">
+    <a href="#about">
+      <span class="en">About</span><span class="zh">关于</span><span class="fr">À propos</span>
+    </a>
+    <a href="#services">
+      <span class="en">Services</span><span class="zh">服务</span><span class="fr">Services</span>
+    </a>
+    <a href="#pricing">
+      <span class="en">Pricing</span><span class="zh">定价</span><span class="fr">Tarifs</span>
+    </a>
+    <a href="#cases">
+      <span class="en">Cases</span><span class="zh">案例</span><span class="fr">Cas</span>
+    </a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-bar">
+      <button class="lb" onclick="setLang('zh')">中文</button>
+      <button class="lb on" onclick="setLang('en')">EN</button>
+      <button class="lb" onclick="setLang('fr')">FR</button>
+    </div>
+    <a href="#booking" class="nav-cta">
+      <span class="en">Free Consultation</span>
+      <span class="zh">免费咨询</span>
+      <span class="fr">Consultation gratuite</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-kicker">
+        <span class="en">Montreal · Canada · Payroll Compliance Consultant</span>
+        <span class="zh">蒙特利尔 · 加拿大 · 薪资合规顾问</span>
+        <span class="fr">Montréal · Canada · Consultant en conformité salariale</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="en">Payroll <em>compliance</em>,<br>handled with precision.</span>
+        <span class="zh">专业薪资合规，<br><em>交给我们。</em></span>
+        <span class="fr">La conformité salariale,<br>gérée avec <em>précision.</em></span>
+      </h1>
+      <p class="hero-sub">
+        <span class="en">10+ years of combined payroll expertise, dedicated to helping Canadian businesses stay compliant, avoid penalties, and run payroll with confidence. PCP certified leadership. Montreal-based. Canada-wide.</span>
+        <span class="zh">10年以上大型企业薪资经验，专注加拿大中小企业提供合规薪资处理服务。PCP认证，蒙特利尔，服务全加拿大。中英法三语。</span>
+        <span class="fr">Plus de 10 ans d'expertise en paie d'entreprise, dédiée à aider les entreprises canadiennes à rester conformes et à gérer la paie en toute confiance. Certifiée PCP. Basée à Montréal.</span>
+      </p>
+      <div class="hero-btns">
+        <a href="#booking" class="btn-primary">
+          <span class="en">Book Free 15-min Consultation →</span>
+          <span class="zh">预约免费15分钟诊断 →</span>
+          <span class="fr">Réserver une consultation gratuite →</span>
+        </a>
+        <a href="#services" class="btn-outline">
+          <span class="en">Our Services</span>
+          <span class="zh">服务详情</span>
+          <span class="fr">Nos services</span>
+        </a>
+      </div>
+      <div class="trust-list">
+        <div class="trust-item"><span class="en">PCP Certified Team · 10+ Years Combined Experience</span><span class="zh">PCP认证 · 10年以上大型企业薪资经验</span><span class="fr">Certifiée PCP · 10+ ans d'expérience en entreprise</span></div>
+        <div class="trust-item"><span class="en">Quebec · Ontario · BC — 3 Province Coverage</span><span class="zh">魁北克 · 安省 · BC — 三省法规覆盖</span><span class="fr">Québec · Ontario · C.-B. — Couverture 3 provinces</span></div>
+        <div class="trust-item"><span class="en">Chinese · English · French</span><span class="zh">中文 · 英文 · 法文 三语服务</span><span class="fr">Chinois · Anglais · Français</span></div>
+        <div class="trust-item"><span class="en">100% Online · All of Canada</span><span class="zh">全程线上 · 服务全加拿大</span><span class="fr">100% en ligne · Partout au Canada</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-card">
+        <div class="hc-title">
+          <span class="en">PayrollNova at a Glance</span>
+          <span class="zh">薪智NOVA 服务概览</span>
+          <span class="fr">PayrollNova en bref</span>
+        </div>
+        <div class="hc-stats">
+          <div class="hcs"><div class="hcs-n">10+</div><div class="hcs-l"><span class="en">Yrs Experience</span><span class="zh">年从业经验</span><span class="fr">Ans d'exp.</span></div></div>
+          <div class="hcs"><div class="hcs-n">3</div><div class="hcs-l"><span class="en">Provinces</span><span class="zh">省份覆盖</span><span class="fr">Provinces</span></div></div>
+          <div class="hcs"><div class="hcs-n">PCP</div><div class="hcs-l"><span class="en">Certified</span><span class="zh">专业认证</span><span class="fr">Certifié</span></div></div>
+          <div class="hcs"><div class="hcs-n">3</div><div class="hcs-l"><span class="en">Languages</span><span class="zh">服务语言</span><span class="fr">Langues</span></div></div>
+        </div>
+        <div class="hc-tags">
+          <span class="hctag">QC · Quebec</span>
+          <span class="hctag">ON · Ontario</span>
+          <span class="hctag">BC · British Columbia</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div style="position:relative">
+        <div class="about-photo">
+          <div class="about-photo-bg"></div>
+          <div class="about-initials">薪</div>
+          <div class="about-overlay">
+            <div class="about-name-card">
+              <span class="en">The PayrollNova Team · Montreal</span>
+              <span class="zh">The PayrollNova Team · 蒙特利尔</span>
+              <span class="fr">Associée fondatrice, PayrollNova · Montréal</span>
+            </div>
+            <div class="about-cert">PCP · Payroll Compliance Professional</div>
+          </div>
+        </div>
+        <div class="about-badge">
+          <div class="about-badge-num">10+</div>
+          <div class="about-badge-label">
+            <span class="en">Years of Expertise</span>
+            <span class="zh">年专业经验</span>
+            <span class="fr">Ans en paie</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sec-kicker">
+          <span class="en">About The PayrollNova Team</span><span class="zh">关于我们</span><span class="fr">À propos de notre équipe</span>
+        </div>
+        <h2 class="sec-title" style="margin-bottom:20px">
+          <span class="en">A team built on<br><em>real payroll expertise.</em></span>
+          <span class="zh">专业团队，<br><em>真实的薪资经验。</em></span>
+          <span class="fr">Une équipe bâtie sur<br><em>une vraie expertise en paie.</em></span>
+        </h2>
+        <div class="about-quote">
+          <span class="en">"The PayrollNova Team was built by payroll professionals who spent over a decade inside large Canadian corporations — and saw firsthand how many small businesses were getting caught off guard by compliance requirements."</span>
+          <span class="zh">「PayrollNova团队由在加拿大大型企业工作超过10年的薪资专业人员创建，我们亲眼见证了太多小企业因合规要求而措手不及。」</span>
+          <span class="fr">« L'équipe PayrollNova a été fondée par des professionnels de la paie ayant plus d'une décennie d'expérience dans de grandes entreprises canadiennes. »</span>
+        </div>
+        <p class="about-body">
+          <span class="en">The PayrollNova Team brings together payroll specialists with deep experience across large Canadian corporations. Our founding principal holds PCP certification and has 10+ years of hands-on experience processing payroll, navigating CRA audits, managing multi-province transitions, and building compliance systems from scratch.<br><br><strong>Our team is built around one goal: making payroll compliance simple, accurate, and stress-free for Canadian businesses.</strong><br><br>Based in Montreal and serving clients across Quebec, Ontario, and BC — we communicate in Chinese, English, and French, so language is never a barrier when navigating government agencies or complex compliance issues.</span>
+          <span class="zh">PayrollNova团队汇聚了在加拿大大型企业拥有深厚经验的薪资专业人员。我们的创始合伙人持有PCP认证，拥有10年以上薪资处理、CRA审计应对、跨省迁移管理和合规体系搭建的实战经验。<br><br><strong>我们团队围绕一个核心目标而建：让加拿大企业的薪资合规变得简单、准确、无压力。</strong><br><br>总部位于蒙特利尔，服务魁北克、安省和BC省的客户。我们以中文、英文和法文提供服务，让语言不再成为您与政府机构打交道时的障碍。</span>
+          <span class="fr">L'équipe PayrollNova réunit des spécialistes de la paie avec une vaste expérience dans de grandes entreprises canadiennes. Notre associée fondatrice est certifiée PCP et possède plus de 10 ans d'expérience pratique.<br><br><strong>Notre équipe est construite autour d'un objectif : rendre la conformité salariale simple, précise et sans stress pour les entreprises canadiennes.</strong><br><br>Basés à Montréal, nous servons des clients au Québec, en Ontario et en C.-B. en chinois, en anglais et en français.</span>
+        </p>
+        <div class="creds">
+          <div class="cred"><div class="cred-icon">🎓</div><div><div class="cred-t">PCP Certified Team</div><div class="cred-d"><span class="en">National payroll certification, valid across Canada</span><span class="zh">全国薪资专业认证，全加拿大有效</span><span class="fr">Certification nationale, valide partout au Canada</span></div></div></div>
+          <div class="cred"><div class="cred-icon">🏢</div><div><div class="cred-t"><span class="en">Corporate Expertise</span><span class="zh">大型企业背景</span><span class="fr">Expertise en entreprise</span></div><div class="cred-d"><span class="en">10+ years in large Canadian corporations</span><span class="zh">10年以上加拿大大型企业薪资经验</span><span class="fr">10+ ans dans de grandes entreprises canadiennes</span></div></div></div>
+          <div class="cred"><div class="cred-icon">🍁</div><div><div class="cred-t"><span class="en">3-Province Coverage</span><span class="zh">三省法规覆盖</span><span class="fr">Couverture 3 provinces</span></div><div class="cred-d">Quebec · Ontario · British Columbia</div></div></div>
+          <div class="cred"><div class="cred-icon">🌐</div><div><div class="cred-t"><span class="en">Canada-Wide Service</span><span class="zh">全加拿大服务</span><span class="fr">Service partout au Canada</span></div><div class="cred-d"><span class="en">100% online, no geographic limits</span><span class="zh">全程线上，不受地域限制</span><span class="fr">100% en ligne, sans limites géographiques</span></div></div></div>
+        </div>
+        <div class="lang-chips">
+          <span class="lchip">中文</span>
+          <span class="lchip">English</span>
+          <span class="lchip">Français</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="sec-kicker"><span class="en">What We Do</span><span class="zh">服务内容</span><span class="fr">Ce que nous faisons</span></div>
+    <h2 class="sec-title"><span class="en">Three Core <em>Services</em></span><span class="zh">三大核心<em>服务</em></span><span class="fr">Trois <em>services</em> essentiels</span></h2>
+    <div class="svc-grid">
+
+      <div class="svc reveal">
+        <div class="svc-icon">📊</div>
+        <div class="svc-en-label">Managed Payroll</div>
+        <div class="svc-name"><span class="en">Managed Payroll</span><span class="zh">月度薪资外包</span><span class="fr">Gestion de la paie</span></div>
+        <div class="svc-desc"><span class="en">Full-cycle monthly payroll handled end-to-end. You focus on running your business — we handle everything payroll-related, every month, on time.</span><span class="zh">全程托管您的月度薪资流程，让您专注业务经营。每月准时完成，合规有保障。</span><span class="fr">Traitement complet de la paie mensuelle. Vous vous concentrez sur votre entreprise — nous gérons tout, chaque mois, à temps.</span></div>
+        <ul class="svc-list">
+          <li><span class="en">Pay stub calculation & distribution</span><span class="zh">工资单计算与发放</span><span class="fr">Calcul et distribution des bulletins de paie</span></li>
+          <li><span class="en">CPP / EI / Income tax deductions</span><span class="zh">CPP / EI / 所得税代扣</span><span class="fr">Déductions RPC / AE / impôt sur le revenu</span></li>
+          <li><span class="en">Quebec QPP / QPIP processing</span><span class="zh">魁北克QPP / QPIP处理</span><span class="fr">Traitement QPP / RQAP (Québec)</span></li>
+          <li><span class="en">Vacation pay & overtime management</span><span class="zh">假期工资与加班费管理</span><span class="fr">Gestion des congés et heures supplémentaires</span></li>
+          <li><span class="en">CRA & Revenu Québec remittances</span><span class="zh">CRA与Revenu Québec汇款</span><span class="fr">Remises à l'ARC et Revenu Québec</span></li>
+          <li><span class="en">Year-end T4 / RL-1 filing</span><span class="zh">年度T4 / RL-1报表</span><span class="fr">Feuillets T4 / RL-1 annuels</span></li>
+        </ul>
+        <div class="svc-price">
+          <div class="svc-price-lbl"><span class="en">Starting from</span><span class="zh">起步价</span><span class="fr">À partir de</span></div>
+          <div class="svc-price-val">$299 <span style="font-size:14px;color:var(--muted)">/mo</span></div>
+        </div>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-icon">⚙️</div>
+        <div class="svc-en-label">Payroll Setup / Migration</div>
+        <div class="svc-name"><span class="en">Setup / Migration</span><span class="zh">系统迁移与初始配置</span><span class="fr">Configuration / Migration</span></div>
+        <div class="svc-desc"><span class="en">New to payroll or switching systems? We configure everything correctly from day one so you never inherit a compliance mess.</span><span class="zh">首次建立薪资系统，或从旧系统迁移？我们从第一天就确保配置正确，不继承任何合规隐患。</span><span class="fr">Nouveau dans la paie ou vous changez de système? Nous configurons tout correctement dès le premier jour.</span></div>
+        <ul class="svc-list">
+          <li><span class="en">CRA / Revenu QC employer account setup</span><span class="zh">CRA / Revenu QC雇主账户设置</span><span class="fr">Création du compte employeur ARC / Revenu QC</span></li>
+          <li><span class="en">Payroll software configuration (Nethris / Wagepoint)</span><span class="zh">薪资软件配置（Nethris / Wagepoint）</span><span class="fr">Configuration du logiciel de paie</span></li>
+          <li><span class="en">Employee data migration & verification</span><span class="zh">员工数据迁移与核验</span><span class="fr">Migration et vérification des données employés</span></li>
+          <li><span class="en">Historical records reconciliation</span><span class="zh">历史记录对账整理</span><span class="fr">Rapprochement des dossiers historiques</span></li>
+          <li><span class="en">Inter-provincial payroll migration</span><span class="zh">跨省薪资系统迁移</span><span class="fr">Migration interprovinciale de la paie</span></li>
+          <li><span class="en">Handover documentation & training</span><span class="zh">交接文件与培训</span><span class="fr">Documentation de transfert et formation</span></li>
+        </ul>
+        <div class="svc-price">
+          <div class="svc-price-lbl"><span class="en">One-time fee</span><span class="zh">一次性费用</span><span class="fr">Frais uniques</span></div>
+          <div class="svc-price-val">$399 – $799</div>
+        </div>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-icon">🔍</div>
+        <div class="svc-en-label">Payroll Compliance Review</div>
+        <div class="svc-name"><span class="en">Compliance Review</span><span class="zh">合规审查</span><span class="fr">Revue de conformité</span></div>
+        <div class="svc-desc"><span class="en">A thorough audit of your payroll processes to find compliance gaps before they become CRA penalties. Includes a written report with prioritized action items.</span><span class="zh">全面审查现有薪资流程，在问题变成罚款之前发现并解决。含书面报告和行动清单。</span><span class="fr">Un audit approfondi de vos processus de paie pour trouver les lacunes avant qu'elles ne deviennent des pénalités.</span></div>
+        <ul class="svc-list">
+          <li><span class="en">Full payroll process compliance audit</span><span class="zh">薪资流程全面合规审计</span><span class="fr">Audit complet de conformité</span></li>
+          <li><span class="en">Employee classification review</span><span class="zh">员工分类审查（雇员vs自雇）</span><span class="fr">Examen de la classification des employés</span></li>
+          <li><span class="en">CNESST / WCB assessment verification</span><span class="zh">CNESST / WCB评估核查</span><span class="fr">Vérification des cotisations CNESST / WCB</span></li>
+          <li><span class="en">Government account status check</span><span class="zh">政府账户状态检查</span><span class="fr">Vérification des comptes gouvernementaux</span></li>
+          <li><span class="en">Written report with action items</span><span class="zh">书面报告及行动清单</span><span class="fr">Rapport écrit avec plan d'action</span></li>
+          <li><span class="en">Risk ranking & remediation roadmap</span><span class="zh">风险优先级排序与整改路线图</span><span class="fr">Classement des risques et feuille de route</span></li>
+        </ul>
+        <div class="svc-price">
+          <div class="svc-price-lbl"><span class="en">One-time fee</span><span class="zh">一次性费用</span><span class="fr">Frais uniques</span></div>
+          <div class="svc-price-val">$299 – $499</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="sec-kicker light"><span class="en">Transparent Pricing</span><span class="zh">透明定价</span><span class="fr">Tarification transparente</span></div>
+    <h2 class="sec-title light"><span class="en">Simple, <em>Transparent</em> Pricing</span><span class="zh">清晰的<em>服务套餐</em></span><span class="fr">Tarification <em>transparente</em></span></h2>
+    <div class="pricing-grid">
+      <div class="pc reveal">
+        <div class="pc-tier"><span class="en">Starter</span><span class="zh">入门</span><span class="fr">Débutant</span></div>
+        <div class="pc-name"><span class="en">Essential</span><span class="zh">基础套餐</span><span class="fr">Essentiel</span></div>
+        <div class="pc-price"><sup>$</sup>299<sub>/mo</sub></div>
+        <div class="pc-sub"><span class="en">Up to 5 employees · New businesses</span><span class="zh">最多5名员工 · 新创企业</span><span class="fr">Jusqu'à 5 employés · Nouvelles entreprises</span></div>
+        <div class="pc-div"></div>
+        <ul class="pc-list">
+          <li><span class="en">Monthly payroll (up to 5 employees)</span><span class="zh">月度薪资处理（最多5名员工）</span><span class="fr">Paie mensuelle (5 employés)</span></li>
+          <li><span class="en">Pay stub calculation & distribution</span><span class="zh">工资单计算与分发</span><span class="fr">Calcul et distribution des bulletins</span></li>
+          <li><span class="en">CPP / EI / Tax deductions</span><span class="zh">CPP / EI / 所得税代扣</span><span class="fr">Déductions RPC / AE / impôt</span></li>
+          <li><span class="en">CNESST annual filing</span><span class="zh">CNESST年度申报</span><span class="fr">Déclaration annuelle CNESST</span></li>
+          <li><span class="en">Year-end T4 / RL-1</span><span class="zh">年度T4 / RL-1</span><span class="fr">Feuillets T4 / RL-1 annuels</span></li>
+          <li><span class="en">Email support</span><span class="zh">电邮咨询支持</span><span class="fr">Support par courriel</span></li>
+        </ul>
+        <a href="#booking" class="pc-cta"><span class="en">Get Started</span><span class="zh">开始咨询</span><span class="fr">Commencer</span></a>
+      </div>
+      <div class="pc feat reveal">
+        <div class="pc-pop"><span class="en">Most Popular</span><span class="zh">最受欢迎</span><span class="fr">Le plus populaire</span></div>
+        <div class="pc-tier"><span class="en">Standard</span><span class="zh">标准</span><span class="fr">Standard</span></div>
+        <div class="pc-name"><span class="en">Professional</span><span class="zh">全面套餐</span><span class="fr">Professionnel</span></div>
+        <div class="pc-price"><sup>$</sup>499<sub>/mo</sub></div>
+        <div class="pc-sub"><span class="en">Up to 15 employees · Growing businesses</span><span class="zh">最多15名员工 · 成长型企业</span><span class="fr">Jusqu'à 15 employés · Entreprises en croissance</span></div>
+        <div class="pc-div"></div>
+        <ul class="pc-list">
+          <li><span class="en">Everything in Essential</span><span class="zh">基础套餐全部内容</span><span class="fr">Tout ce qui est inclus dans Essentiel</span></li>
+          <li><span class="en">Up to 15 employees</span><span class="zh">最多15名员工</span><span class="fr">Jusqu'à 15 employés</span></li>
+          <li><span class="en">Full government account management</span><span class="zh">政府账户全面管理</span><span class="fr">Gestion complète des comptes gouvernementaux</span></li>
+          <li><span class="en">Vacation / overtime / bonus processing</span><span class="zh">假期/加班/奖金处理</span><span class="fr">Traitement congés / heures sup. / primes</span></li>
+          <li><span class="en">New employee onboarding setup</span><span class="zh">新员工入职合规设置</span><span class="fr">Configuration d'intégration des nouveaux employés</span></li>
+          <li><span class="en">WeChat / phone priority support</span><span class="zh">微信/电话优先支持</span><span class="fr">Support prioritaire WeChat / téléphone</span></li>
+          <li><span class="en">Quarterly compliance health check</span><span class="zh">季度合规健康检查</span><span class="fr">Bilan trimestriel de conformité</span></li>
+        </ul>
+        <a href="#booking" class="pc-cta"><span class="en">Get Started</span><span class="zh">开始咨询</span><span class="fr">Commencer</span></a>
+      </div>
+      <div class="pc reveal">
+        <div class="pc-tier"><span class="en">Enterprise</span><span class="zh">企业</span><span class="fr">Entreprise</span></div>
+        <div class="pc-name"><span class="en">Custom</span><span class="zh">定制套餐</span><span class="fr">Sur mesure</span></div>
+        <div class="pc-price"><sup>$</sup>799<sub>/mo+</sub></div>
+        <div class="pc-sub"><span class="en">15+ employees or multi-province</span><span class="zh">15名员工以上或多省业务</span><span class="fr">15+ employés ou multi-provinces</span></div>
+        <div class="pc-div"></div>
+        <ul class="pc-list">
+          <li><span class="en">Everything in Professional</span><span class="zh">全面套餐所有内容</span><span class="fr">Tout ce qui est inclus dans Professionnel</span></li>
+          <li><span class="en">Unlimited employees</span><span class="zh">无限员工数量</span><span class="fr">Employés illimités</span></li>
+          <li><span class="en">Multi-province payroll management</span><span class="zh">多省薪资法规管理</span><span class="fr">Gestion multi-provinces</span></li>
+          <li><span class="en">CRA / Revenu QC audit support</span><span class="zh">CRA / Revenu QC审计支持</span><span class="fr">Support audit ARC / Revenu QC</span></li>
+          <li><span class="en">Dedicated consultant</span><span class="zh">专属顾问一对一服务</span><span class="fr">Consultant dédié</span></li>
+          <li><span class="en">Monthly compliance reporting</span><span class="zh">月度合规报告</span><span class="fr">Rapport mensuel de conformité</span></li>
+        </ul>
+        <a href="#booking" class="pc-cta"><span class="en">Contact Us</span><span class="zh">联系定制</span><span class="fr">Nous contacter</span></a>
+      </div>
+    </div>
+
+    <div class="addons reveal">
+      <div class="addons-title"><span class="en">Additional Services</span><span class="zh">附加服务</span><span class="fr">Services additionnels</span></div>
+      <div class="addons-grid">
+        <div class="addon">
+          <div class="addon-name"><span class="en">Payroll Consultation</span><span class="zh">薪资专项咨询</span><span class="fr">Consultation en paie</span></div>
+          <div class="addon-price">$60 / hour</div>
+          <div class="addon-desc"><span class="en">One-on-one advisory. Compliance questions, CRA issues, employee disputes, policy review.</span><span class="zh">一对一专项咨询。合规问题、CRA疑问、员工纠纷、政策解读。</span><span class="fr">Conseil individuel. Questions de conformité, problèmes ARC, litiges employés.</span></div>
+        </div>
+        <div class="addon">
+          <div class="addon-name"><span class="en">Payroll Setup / Migration</span><span class="zh">系统迁移与初始配置</span><span class="fr">Configuration / Migration</span></div>
+          <div class="addon-price">$399 – $799 <span style="font-size:10px;opacity:.5">one-time</span></div>
+          <div class="addon-desc"><span class="en">Full setup for new employers or migration from existing systems, including data transfer and verification.</span><span class="zh">新雇主全套设置或现有系统迁移，含数据转移与核验。</span><span class="fr">Configuration complète pour nouveaux employeurs ou migration de systèmes existants.</span></div>
+        </div>
+        <div class="addon">
+          <div class="addon-name"><span class="en">Compliance Review</span><span class="zh">合规专项审查</span><span class="fr">Revue de conformité</span></div>
+          <div class="addon-price">$299 – $499 <span style="font-size:10px;opacity:.5">one-time</span></div>
+          <div class="addon-desc"><span class="en">Full audit with written report and prioritized action items.</span><span class="zh">全面审计，含书面报告和优先级行动清单。</span><span class="fr">Audit complet avec rapport écrit et plan d'action priorisé.</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="pricing-note"><span class="en">✦ All monthly plans include a free 15-min diagnostic call · Payroll software fees billed separately · Prices exclude taxes</span><span class="zh">✦ 所有月度套餐含免费15分钟诊断电话 · 薪资软件费用另计 · 价格不含税</span><span class="fr">✦ Tous les forfaits mensuels incluent un appel diagnostique gratuit · Logiciel facturé séparément · Hors taxes</span></p>
+  </div>
+</section>
+
+<!-- CASES -->
+<section id="cases">
+  <div class="container">
+    <div class="sec-kicker"><span class="en">Client Stories</span><span class="zh">客户案例</span><span class="fr">Témoignages clients</span></div>
+    <h2 class="sec-title"><span class="en">Real Problems, <em>Real Results</em></span><span class="zh">真实场景，<em>真实成果</em></span><span class="fr">Vrais problèmes, <em>vrais résultats</em></span></h2>
+    <div class="cases-grid">
+
+      <!-- CASE 1: Restaurant -->
+      <div class="case reveal">
+        <div class="case-header" style="background:linear-gradient(135deg,#7a1f1f,#3d0f0f)">
+          <div class="case-industry"><span class="en">Food & Beverage · Montreal, QC</span><span class="zh">餐饮行业 · 蒙特利尔</span><span class="fr">Restauration · Montréal, QC</span></div>
+          <div class="case-title"><span class="en">From Payroll Chaos to a Well-Run Team</span><span class="zh">从薪资混乱到员工满意、准时发薪</span><span class="fr">Du chaos salarial à une équipe bien gérée</span></div>
+        </div>
+        <div class="case-body">
+          <div class="case-lbl"><span class="en">The Situation</span><span class="zh">问题背景</span><span class="fr">La situation</span></div>
+          <div class="case-text"><span class="en">A Montreal restaurant with 12 staff was processing payroll manually every two weeks. The owner spent 6–8 hours per pay period on calculations, tip reporting, and government filings. Errors were common, staff complained about late or incorrect pay, and morale was suffering.</span><span class="zh">蒙特利尔一家有12名员工的餐厅，每两周手动处理一次薪资。老板每个薪资周期要花6-8小时在计算、小费申报和政府申报上，错误频出，员工抱怨工资迟发或出错，士气低落。</span><span class="fr">Un restaurant montréalais avec 12 employés traitait la paie manuellement toutes les deux semaines. Le propriétaire passait 6 à 8 heures par période de paie sur les calculs, les rapports de pourboires et les déclarations gouvernementales.</span></div>
+          <div class="case-lbl green"><span class="en">What Changed After PayrollNova</span><span class="zh">引入薪智NOVA后的改变</span><span class="fr">Ce qui a changé après PayrollNova</span></div>
+          <div class="case-result"><span class="en">Payroll is now processed accurately and on time, every pay period. The owner reclaimed 6+ hours per cycle to focus on the restaurant. Staff satisfaction improved immediately — no more late payments or calculation errors. Annual savings in time and avoided penalties: over $8,000.</span><span class="zh">薪资现在每个周期准时、准确处理。老板每个周期节省了6小时以上，可以专注于餐厅运营。员工满意度立刻提升，不再有迟发或计算错误的情况。每年节省的时间成本和避免的罚款超过$8,000。</span><span class="fr">La paie est maintenant traitée avec précision et à temps, chaque période. Le propriétaire a récupéré 6+ heures par cycle. La satisfaction des employés s'est immédiatement améliorée — plus de retards ni d'erreurs de calcul.</span></div>
+          <div class="case-metrics">
+            <div class="case-metric"><div class="case-metric-num">6h+</div><div class="case-metric-text"><span class="en">saved per pay period</span><span class="zh">每周期节省时间</span><span class="fr">économisées par période</span></div></div>
+            <div class="case-metric"><div class="case-metric-num">$8K+</div><div class="case-metric-text"><span class="en">annual savings</span><span class="zh">年度节省成本</span><span class="fr">d'économies annuelles</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CASE 2: Retail multi-location 30-50 employees -->
+      <div class="case reveal">
+        <div class="case-header" style="background:linear-gradient(135deg,#1a4a2e,#0d2718)">
+          <div class="case-industry"><span class="en">Retail · Multi-Location · 35 Employees</span><span class="zh">零售连锁 · 多门店 · 35名员工</span><span class="fr">Commerce de détail · Multi-sites · 35 employés</span></div>
+          <div class="case-title"><span class="en">Outsourcing Payroll Transformed Our Business</span><span class="zh">外包薪资，彻底改变了企业运营</span><span class="fr">Externaliser la paie a transformé nos opérations</span></div>
+        </div>
+        <div class="case-body">
+          <div class="case-lbl"><span class="en">The Situation</span><span class="zh">问题背景</span><span class="fr">La situation</span></div>
+          <div class="case-text"><span class="en">A retail chain with 3 locations and 35 employees across Ontario had a part-time bookkeeper managing payroll. As the business grew, payroll errors increased, CRA remittances were occasionally late, and the HR team was overwhelmed handling staff questions about pay.</span><span class="zh">安省一家有3个门店、35名员工的零售连锁，由一名兼职记账员处理薪资。随着业务增长，薪资错误增加，CRA汇款偶尔延迟，HR团队被员工薪资问题淹没。</span><span class="fr">Une chaîne de vente au détail avec 3 sites et 35 employés en Ontario avait un teneur de livres à temps partiel pour gérer la paie. Les erreurs augmentaient et les remises à l'ARC étaient parfois en retard.</span></div>
+          <div class="case-lbl green"><span class="en">What Changed After PayrollNova</span><span class="zh">引入薪智NOVA后的改变</span><span class="fr">Ce qui a changé après PayrollNova</span></div>
+          <div class="case-result"><span class="en">Payroll errors dropped to zero. CRA remittances became consistently on time. The HR team was freed from payroll queries. The business saved the cost of the part-time bookkeeper while getting a more reliable, professional service. Scalable as the business continues to grow.</span><span class="zh">薪资错误降至零。CRA汇款始终准时。HR团队从薪资查询中解放出来。节省了兼职记账员的费用，同时获得更可靠的专业服务。随着业务增长，服务可以无缝扩展。</span><span class="fr">Les erreurs de paie sont tombées à zéro. Les remises à l'ARC sont constamment à temps. L'équipe RH a été libérée des questions de paie. Service évolutif au fur et à mesure de la croissance.</span></div>
+          <div class="case-metrics">
+            <div class="case-metric"><div class="case-metric-num">0</div><div class="case-metric-text"><span class="en">payroll errors</span><span class="zh">薪资错误</span><span class="fr">erreurs de paie</span></div></div>
+            <div class="case-metric"><div class="case-metric-num">100%</div><div class="case-metric-text"><span class="en">on-time remittances</span><span class="zh">汇款准时率</span><span class="fr">remises à temps</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CASE 3: New immigrant -->
+      <div class="case reveal">
+        <div class="case-header" style="background:linear-gradient(135deg,#1a3560,#0c1d32)">
+          <div class="case-industry"><span class="en">New Immigrant Entrepreneur · Toronto, ON</span><span class="zh">新移民创业者 · 多伦多</span><span class="fr">Entrepreneur immigrant · Toronto, ON</span></div>
+          <div class="case-title"><span class="en">Built a Compliant Payroll System from Zero</span><span class="zh">从零建立完整合规薪资体系</span><span class="fr">Système de paie conforme construit de zéro</span></div>
+        </div>
+        <div class="case-body">
+          <div class="case-lbl"><span class="en">The Situation</span><span class="zh">问题背景</span><span class="fr">La situation</span></div>
+          <div class="case-text"><span class="en">A new immigrant opened a service business in Toronto with 4 employees. Unfamiliar with Canadian payroll law, ESA obligations, and CRA requirements, they didn't know where to start — and were worried about making costly compliance mistakes early on.</span><span class="zh">一位新移民在多伦多开了一家有4名员工的服务型企业。不熟悉加拿大薪资法、ESA义务和CRA要求，不知道从何开始，也担心一开始就犯下代价高昂的合规错误。</span><span class="fr">Un nouvel immigrant a ouvert une entreprise de services à Toronto avec 4 employés. Peu familier avec la loi canadienne sur la paie, les obligations ESA et les exigences de l'ARC, il ne savait pas par où commencer.</span></div>
+          <div class="case-lbl green"><span class="en">What Changed After PayrollNova</span><span class="zh">引入薪智NOVA后的改变</span><span class="fr">Ce qui a changé après PayrollNova</span></div>
+          <div class="case-result"><span class="en">CRA employer account set up correctly from day one. Ontario-compliant payroll policies established. The owner understood their legal obligations clearly, in their own language. Full setup completed in 2 weeks — the business launched with confidence and zero compliance gaps.</span><span class="zh">CRA雇主账户从第一天起就正确设置。建立了符合安省法规的薪资政策。老板用自己的语言清楚了解了法律义务。全套设置2周内完成，企业自信启动，零合规漏洞。</span><span class="fr">Compte employeur ARC correctement configuré dès le premier jour. Politiques de paie conformes à l'Ontario établies. Configuration complète en 2 semaines — l'entreprise a lancé avec zéro lacune de conformité.</span></div>
+          <div class="case-metrics">
+            <div class="case-metric"><div class="case-metric-num">2wks</div><div class="case-metric-text"><span class="en">zero to compliant</span><span class="zh">从零到合规</span><span class="fr">de zéro à conforme</span></div></div>
+            <div class="case-metric"><div class="case-metric-num">0</div><div class="case-metric-text"><span class="en">compliance gaps</span><span class="zh">合规漏洞</span><span class="fr">lacunes de conformité</span></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:20px;font-family:'DM Mono',monospace">
+      <span class="en">* Cases illustrate typical client scenarios. Details generalized for privacy.</span>
+      <span class="zh">* 案例为典型客户场景的示意性描述，具体细节已作通用化处理以保护隐私。</span>
+      <span class="fr">* Les cas illustrent des scénarios clients typiques. Détails généralisés pour la confidentialité.</span>
+    </p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="sec-kicker"><span class="en">FAQ</span><span class="zh">常见问题</span><span class="fr">FAQ</span></div>
+    <h2 class="sec-title"><span class="en">Frequently Asked <em>Questions</em></span><span class="zh">您最想知道的<em>问题</em></span><span class="fr">Questions <em>fréquentes</em></span></h2>
+    <div class="faq-grid">
+      <div class="faq reveal"><div class="faq-q"><span class="en">I already have an accountant. Do I still need you?</span><span class="zh">我已经有会计了，还需要薪资顾问吗？</span><span class="fr">J'ai déjà un comptable. Ai-je encore besoin de vous?</span></div><div class="faq-a"><span class="en">Accountants handle tax filing. Payroll consultants handle day-to-day payroll processing, government remittances, and compliance filings like CNESST. These are completely different roles — most businesses need both.</span><span class="zh">会计负责报税，薪资顾问负责日常薪资处理和合规申报（如CNESST）。两者职责完全不同，大多数企业两个都需要。</span><span class="fr">Les comptables s'occupent de la déclaration fiscale. Les consultants en paie gèrent le traitement quotidien et les déclarations comme la CNESST. Ce sont des rôles complètement différents.</span></div></div>
+      <div class="faq reveal"><div class="faq-q"><span class="en">I only have 1–2 employees. Is it worth it?</span><span class="zh">我只有1-2个员工，有必要吗？</span><span class="fr">Je n'ai que 1–2 employés. Est-ce que ça vaut la peine?</span></div><div class="faq-a"><span class="en">Yes. Even with one employee, CNESST filing, T4/RL-1, and CPP/EI deductions are legally required. Getting it wrong means fines starting at $500+. Our service costs far less than one penalty.</span><span class="zh">有必要。哪怕只有1个员工，CNESST申报、T4/RL-1和CPP/EI代扣都是法律要求。做错了罚款从$500起，我们的服务费远低于一张罚款单。</span><span class="fr">Oui. Même avec un seul employé, la déclaration CNESST, T4/RL-1 et les déductions RPC/AE sont obligatoires légalement. Les erreurs coûtent 500$+.</span></div></div>
+      <div class="faq reveal"><div class="faq-q"><span class="en">Will you access my bank account?</span><span class="zh">你们会接触我们的银行账户吗？</span><span class="fr">Aurez-vous accès à mon compte bancaire?</span></div><div class="faq-a"><span class="en">Never. We calculate and prepare all payroll data. All actual payments are made by you through your own online banking. We never handle your funds — your financial security is always in your hands.</span><span class="zh">绝对不会。我们只负责计算和处理薪资数据，所有实际付款都由您通过自己的网上银行完成，我们不经手任何资金。</span><span class="fr">Jamais. Nous calculons et préparons toutes les données de paie. Tous les paiements réels sont effectués par vous via votre propre service bancaire. Nous ne gérons jamais vos fonds.</span></div></div>
+      <div class="faq reveal"><div class="faq-q"><span class="en">We're moving provinces. Can you help with the transition?</span><span class="zh">我们要跨省搬迁，你能帮我们过渡吗？</span><span class="fr">Nous déménageons dans une autre province. Pouvez-vous aider?</span></div><div class="faq-a"><span class="en">This is exactly what we specialize in. Inter-provincial moves involve major payroll law changes — different deductions, different agencies, different filing requirements. We've done this before and will ensure a seamless, compliant transition.</span><span class="zh">这正是我们的专长。省际迁移涉及薪资法规的重大变化——不同的代扣项目、不同的政府机构、不同的申报要求。我们会确保顺利、合规地过渡。</span><span class="fr">C'est exactement notre spécialité. Les déménagements interprovinciaux impliquent des changements majeurs — différentes déductions, différentes agences, différentes exigences de déclaration.</span></div></div>
+      <div class="faq reveal"><div class="faq-q"><span class="en">How does the service work? Do we need to meet in person?</span><span class="zh">服务是怎么进行的？需要见面吗？</span><span class="fr">Comment fonctionne le service? Devons-nous nous rencontrer en personne?</span></div><div class="faq-a"><span class="en">Everything is 100% online. We communicate via WeChat, email, and phone. You send us payroll inputs each pay period; we process and return everything ready to action. No in-person meetings required — ever.</span><span class="zh">全程100%线上。通过微信、邮件和电话沟通。您每个薪资周期发送数据给我们，我们处理完毕后发回，您直接操作即可，完全不需要见面。</span><span class="fr">Tout est 100% en ligne. Nous communiquons via WeChat, courriel et téléphone. Vous nous envoyez les données de paie, nous traitons et retournons tout prêt à l'action. Aucune réunion en personne requise.</span></div></div>
+      <div class="faq reveal"><div class="faq-q"><span class="en">What do I need to get started?</span><span class="zh">开始合作需要准备什么？</span><span class="fr">De quoi ai-je besoin pour commencer?</span></div><div class="faq-a"><span class="en">Just three things: employee information, any historical payroll records, and your CRA employer account number. We handle all setup. First engagement includes a full compliance review at no extra charge.</span><span class="zh">只需要三样：员工基本信息、已有的历史工资记录、CRA雇主账号。我们负责所有设置工作，首次合作包含全面合规审查，不额外收费。</span><span class="fr">Trois choses seulement : informations sur les employés, dossiers historiques de paie et votre numéro de compte employeur ARC. Nous gérons toute la configuration.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="container">
+    <div class="booking-grid">
+      <div>
+        <div class="booking-kicker"><span class="en">Free Consultation</span><span class="zh">免费咨询</span><span class="fr">Consultation gratuite</span></div>
+        <div class="booking-title">
+          <span class="en">15 minutes.<br><em>Honest answers.</em></span>
+          <span class="zh">15分钟，<br><em>给您真实答案。</em></span>
+          <span class="fr">15 minutes.<br><em>Des réponses honnêtes.</em></span>
+        </div>
+        <p class="booking-desc">
+          <span class="en">Book a free diagnostic call. We review your current setup, identify your biggest compliance risks, and give you concrete next steps — no sales pitch, no obligation.</span>
+          <span class="zh">预约免费诊断电话。我们了解您的情况，告诉您最需要关注的合规事项，给出具体可行的建议。完全免费，无任何推销压力。</span>
+          <span class="fr">Réservez un appel diagnostique gratuit. Nous examinerons votre configuration actuelle et vous donnerons des recommandations concrètes — sans argumentaire de vente, sans obligation.</span>
+        </p>
+        <ul class="booking-pts">
+          <li><span class="en">Understand your current payroll situation</span><span class="zh">了解您目前的薪资处理方式</span><span class="fr">Comprendre votre situation actuelle de paie</span></li>
+          <li><span class="en">Identify your most urgent compliance risks</span><span class="zh">识别最紧迫的合规风险</span><span class="fr">Identifier vos risques de conformité les plus urgents</span></li>
+          <li><span class="en">Get specific, actionable recommendations</span><span class="zh">获得具体可行的建议</span><span class="fr">Obtenir des recommandations spécifiques et réalisables</span></li>
+          <li><span class="en">No obligation — just honest professional advice</span><span class="zh">完全免费，无推销压力</span><span class="fr">Sans obligation — juste des conseils professionnels honnêtes</span></li>
+        </ul>
+        <div style="margin-top:28px;padding:20px;background:rgba(255,255,255,.04);border:1px solid rgba(184,146,42,.15);border-radius:3px">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--gold);margin-bottom:10px;text-transform:uppercase">
+            <span class="en">Contact Us Directly</span><span class="zh">直接联系我们</span><span class="fr">Contactez-nous directement</span>
+          </div>
+          <div style="font-size:12px;color:rgba(255,255,255,.45);line-height:1.9">
+            📧 <a href="mailto:info@payrollnova.ca" style="color:var(--gold-light);text-decoration:none">info@payrollnova.ca</a><br>
+            <span class="en">💬 WeChat: 薪智NOVA</span><span class="zh">💬 微信：薪智NOVA</span><span class="fr">💬 WeChat: 薪智NOVA</span>
+          </div>
+        </div>
+      </div>
+      <div class="bform">
+        <div class="bform-title"><span class="en">Book Your Free Call</span><span class="zh">预约免费诊断</span><span class="fr">Réserver votre appel gratuit</span></div>
+        <form id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="fg">
+            <label class="fl"><span class="en">Your Name</span><span class="zh">您的姓名</span><span class="fr">Votre nom</span></label>
+            <input type="text" class="fi" required>
+          </div>
+          <div class="fg">
+            <label class="fl"><span class="en">Contact (WeChat / Email / Phone)</span><span class="zh">联系方式（微信/邮件/电话）</span><span class="fr">Contact (WeChat / Courriel / Téléphone)</span></label>
+            <input type="text" class="fi" required>
+          </div>
+          <div class="fg">
+            <label class="fl"><span class="en">Province</span><span class="zh">所在省份</span><span class="fr">Province</span></label>
+            <select class="fs">
+              <option value="">—</option>
+              <option>Quebec / 魁北克</option>
+              <option>Ontario / 安省</option>
+              <option>British Columbia / BC省</option>
+              <option>Other / 其他</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label class="fl"><span class="en">Number of Employees</span><span class="zh">员工人数</span><span class="fr">Nombre d'employés</span></label>
+            <select class="fs">
+              <option value="">—</option>
+              <option>1–5</option><option>6–15</option><option>16–30</option><option>30+</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label class="fl"><span class="en">Your biggest payroll challenge (optional)</span><span class="zh">目前最头疼的问题（选填）</span><span class="fr">Votre plus grand défi de paie (facultatif)</span></label>
+            <textarea class="ft"></textarea>
+          </div>
+          <button type="submit" class="fsub">
+            <span class="en">Submit Request →</span><span class="zh">提交预约申请 →</span><span class="fr">Soumettre la demande →</span>
+          </button>
+          <p class="fnote"><span class="en">The PayrollNova Team responds within 24 hours</span><span class="zh">我们会在24小时内回复</span><span class="fr">L'équipe PayrollNova répond dans les 24 heures</span></p>
+        </form>
+        <div class="success-msg" id="successMsg">
+          <span class="en">✓ Request received! The PayrollNova Team will be in touch within 24 hours.</span>
+          <span class="zh">✓ 收到您的预约！我们会在24小时内联系您。</span>
+          <span class="fr">✓ Demande reçue! L'équipe PayrollNova vous contactera dans les 24 heures.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <a href="#" class="flogo">Payroll<em>Nova</em></a>
+      <p class="ftag">
+        <span class="en">Payroll Compliance Specialists for Canadian SMEs<br>Montreal · Canada-Wide<br>Chinese · English · French</span>
+        <span class="zh">加拿大中小企业薪资合规专业团队<br>蒙特利尔 · 服务全加拿大<br>中文 · English · Français</span>
+        <span class="fr">Spécialistes en conformité salariale pour PME canadiennes<br>Montréal · Partout au Canada<br>Chinois · Anglais · Français</span>
+      </p>
+    </div>
+    <div>
+      <div class="fcol-t"><span class="en">Navigation</span><span class="zh">快速导航</span><span class="fr">Navigation</span></div>
+      <ul class="flinks">
+        <li><a href="#about"><span class="en">About</span><span class="zh">关于我</span><span class="fr">À propos</span></a></li>
+        <li><a href="#services"><span class="en">Services</span><span class="zh">服务内容</span><span class="fr">Services</span></a></li>
+        <li><a href="#pricing"><span class="en">Pricing</span><span class="zh">服务定价</span><span class="fr">Tarifs</span></a></li>
+        <li><a href="#cases"><span class="en">Client Cases</span><span class="zh">客户案例</span><span class="fr">Cas clients</span></a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#booking"><span class="en">Free Consultation</span><span class="zh">免费咨询</span><span class="fr">Consultation gratuite</span></a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="fcol-t"><span class="en">Contact</span><span class="zh">联系方式</span><span class="fr">Contact</span></div>
+      <div class="fcontact">
+        <a href="mailto:info@payrollnova.ca">info@payrollnova.ca</a><br>
+        <span class="en">WeChat: 薪智NOVA</span><span class="zh">微信：薪智NOVA</span><span class="fr">WeChat: 薪智NOVA</span><br>
+        <span class="en">小红书: 薪智NOVA</span><span class="zh">小红书：薪智NOVA - 魁北克薪资合规</span><span class="fr">小红书: 薪智NOVA</span><br><br>
+        <span class="en">Montreal, Quebec<br>Serving all of Canada</span>
+        <span class="zh">蒙特利尔，魁北克<br>服务全加拿大</span>
+        <span class="fr">Montréal, Québec<br>Service partout au Canada</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="fcopy">© 2025 PayrollNova · payrollnova.ca · Montreal, Canada</div>
+    <div class="fcert">PCP Certified · CRA Compliant · Canada-Wide</div>
+  </div>
+</footer>
+
+<script>
+let currentLang = 'en';
+
+function setLang(l) {
+  currentLang = l;
+  // Switch body class
+  document.body.className = 'lang-' + l;
+  // Update lang buttons
+  document.querySelectorAll('.lb').forEach(b => b.classList.remove('on'));
+  const map = {'zh':'中文','en':'EN','fr':'FR'};
+  document.querySelectorAll('.lb').forEach(b => {
+    if(b.textContent.trim() === map[l]) b.classList.add('on');
+  });
+  // Update html lang
+  const htmlLang = {'en':'en-CA','zh':'zh-CN','fr':'fr-CA'};
+  document.documentElement.lang = htmlLang[l];
+  // Update success message visibility if shown
+  const msg = document.getElementById('successMsg');
+  if(msg.style.display === 'block') {
+    msg.querySelectorAll('.en,.zh,.fr').forEach(el => el.style.display='none');
+    const active = msg.querySelector('.'+l);
+    if(active) active.style.display = 'inline';
+  }
+}
+
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('contactForm').style.display = 'none';
+  const msg = document.getElementById('successMsg');
+  msg.style.display = 'block';
+}
+
+// Scroll reveal
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}
+  });
+}, {threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+// Init
+setLang('en');
+</script>
+</body>
+</html>
